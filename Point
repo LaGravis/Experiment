@@ -1,0 +1,62 @@
+import org.jetbrains.annotations.NotNull;
+
+public class Point {
+    final public double x, y, z;
+    @Override
+    public String toString(){
+        String x, y, z;
+        int x0 = (int) (100 * this.x), y0 = (int) (100 * this.y), z0 = (int) (100 * this.z);
+        if (this.x == (int) this.x)
+            x = (int) this.x + "";
+        else if (100 * this.x == x0)
+            x = String.format("%.2f", this.x);
+        else
+            x = String.format("%.2f...", this.x);
+        if (this.y == (int) this.y)
+            y = (int) this.y + "";
+        else if (100 * this.y == y0)
+            y = String.format("%.2f", this.y);
+        else
+            y = String.format("%.2f...", this.y);
+        if (this.z == (int) this.z)
+            z = (int) this.z + "";
+        else if (100 * this.z == z0)
+            z = String.format("%.2f", this.z);
+        else
+            z = String.format("%.2f...", this.z);
+        return "Point (" + x + "; " + y + "; " + z + ")";
+    }
+    public Point(){
+        this.x = 0d;
+        this.y = 0d;
+        this.z = 0d;
+    }
+    public Point(double x, double y, double z){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+    public Point(@NotNull Point point){
+        this.x = point.x;
+        this.y = point.y;
+        this.z = point.z;
+    }
+    public static double distance(@NotNull Point a, @NotNull Point b){
+        return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y) + (b.z - a.z) * (b.z - a.z));
+    }
+    public double distanceTo(Point a){
+        return distance(this, a);
+    }
+    public double distanceTo(@NotNull Plane a){
+        return Math.abs((a.getA() * this.x + a.getB() * this.y + a.getC() * this.z + a.getD()) / a.normal().abs());
+
+    }
+    public double distanceToZero(){
+        return distance(this, new Point(0,0,0));
+    }
+    public boolean belongsTo(@NotNull Plane a){
+        return (a.getA() * this.x + a.getB() * this.y + a.getC() * this.z + a.getD() == 0);
+    }
+
+
+}
